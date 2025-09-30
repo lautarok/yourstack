@@ -43,9 +43,12 @@ Preferred communication style: Simple, everyday language.
 - **API Routes**: `/api/exams/[examId]` endpoint provides exam data to client components via REST API pattern
 
 ### Animation System
-- **Framer Motion**: Declarative animation library for smooth page transitions
-- **TransitionWrapper Component**: Reusable wrapper that applies consistent fade-in and blur animations across pages
-- **Performance**: Animations use GPU-accelerated properties (opacity, transform, filter) for smooth 60fps performance
+- **Framer Motion**: Declarative animation library for smooth page and component transitions
+- **TransitionWrapper Component**: Reusable wrapper that applies consistent entrance and exit animations with translateY (down on enter, up on exit), blur, and opacity effects
+- **AnimatePresence**: Used for exit animations on page transitions and question changes within exams
+- **Question Transitions**: Individual questions animate smoothly when navigating between them with mode='wait' to ensure one animation completes before the next begins
+- **Performance**: All animations use GPU-accelerated properties (opacity, transform, filter) for smooth 60fps performance
+- **Code Style**: All components use single quotes for strings and minimal semicolons per project conventions
 
 ### State Management
 - **Local Component State**: React useState for client-side state (selected answers, exam results, loading states)
