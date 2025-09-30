@@ -54,6 +54,17 @@
         { "id": 4, "text": "() -> {}" }
       ],
       "correctAnswerId": 2
+    },
+    {
+      "id": 6,
+      "text": "¿Qué devuelve este fragmento de código?",
+      "codeFragment": "// Prueba\nconsole.log(0.1 + 0.2)",
+      "options": [
+        { "id": 1, "text": "0.3" },
+        { "id": 2, "text": "0.30000000000000004" },
+        { "id": 3, "text": "SyntaxError" }
+      ],
+      "correctAnswerId": "2"
     }
   ]
 }

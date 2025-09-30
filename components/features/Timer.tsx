@@ -37,7 +37,7 @@ export default function Timer({ durationMinutes, onTimeUp }: TimerProps) {
 
   return (
     <div
-      className={`fixed top-4 right-4 px-6 py-3 rounded-lg font-mono text-lg font-semibold shadow-lg ${
+      className={`px-6 w-fit h-fit py-3 rounded-lg font-mono text-lg font-semibold shadow-lg ${
         isCritical
           ? 'bg-red-100 text-red-700 border-2 border-red-300'
           : isWarning

@@ -1,5 +1,4 @@
 {
-  "/api/exams/[examId]/route": "app/api/exams/[examId]/route.js",
   "/(main)/page": "app/(main)/page.js",
   "/(main)/exams/[examId]/page": "app/(main)/exams/[examId]/page.js"
 }
