@@ -1,0 +1,103 @@
+Crea una aplicación frontend en Next.js (App Router) utilizando TypeScript y Tailwind CSS llamada "YourStack". Esta plataforma simulará un sitio de exámenes de TI (Diseño, Programación, Desarrollo Web) sin necesidad de un backend. El diseño debe ser limpio, moderno y estéticamente agradable, siguiendo la filosofía de componentes estilizados de shadcn/ui.
+
+Objetivos de la Implementación:
+
+Framework y Diseño:
+
+Next.js (App Router) y TypeScript: Utilizar las últimas convenciones y características (Server Components vs. Client Components).
+
+SSR: Implementar Server-Side Rendering (SSR) para la carga inicial de datos en las páginas de listado y examen, optimizando el rendimiento y el SEO.
+
+Tailwind CSS: Configurar y utilizar Tailwind CSS para todo el estilizado. Utiliza clases para lograr un look and feel similar a shadcn/ui (paleta de colores suaves, sombras sutiles, bordes redondeados).
+
+Arquitectura Modular y Escalable:
+
+Estructura: Seguir una arquitectura modular clara (components, lib, data). Evita archivos monolíticos; encapsula la lógica, los estilos y las animaciones.
+
+Componentes: Crea un directorio components/ui para elementos base (ej. Button, Card) que utilicen Tailwind CSS para el estilo.
+
+Gestión de Datos Estáticos (JSON):
+
+Directorio: Crea un directorio /data para los archivos JSON estáticos.
+
+Estructura de Datos: Define la siguiente estructura para los archivos JSON:
+
+exams-index.json: Archivo principal con el índice.
+
+JSON
+
+[
+  {
+    "id": "uuid-exam-1",
+    "title": "Examen de Fundamentos de JavaScript",
+    "durationMinutes": 45, // **NUEVO REQUISITO: Límite de tiempo**
+    "dataFilePath": "/data/uuid-exam-1.json" 
+  }
+  // ... más exámenes
+]
+uuid-exam-1.json: Archivo con el contenido detallado del examen.
+
+JSON
+
+{
+  "questions": [
+    { "id": 1, "text": "¿Qué es la 'hoisting'?", "options": [/*...*/], "correctAnswerId": 1 }
+  ]
+}
+Capa de Acceso a Datos: Crea una utilidad en /lib/data-service.ts que se encargue de leer y relacionar la data del exams-index.json con los archivos de examen individuales ([uuid].json), para ser utilizada en los Server Components.
+
+Animaciones de Transición Encapsuladas:
+
+Librería: Utiliza Framer Motion para las animaciones.
+
+Efecto: Implementa la animación de entrada y salida con la combinación: translateY + blur + opacity.
+
+Componente Reutilizable: Crea el componente <TransitionWrapper> (use client) que reciba children y aplique automáticamente la animación:
+
+Entrada: Animación desde: opacity: 0, y: 20 (hacia abajo), filter: 'blur(4px)'.
+
+Final/Animado: Hacia: opacity: 1, y: 0, filter: 'blur(0)'.
+
+Estructura de Archivos a Generar:
+
+yourstack/
+├── app/
+│   ├── (main)/
+│   │   ├── layout.tsx         // Configuración de Tailwind y el 'font'
+│   │   ├── page.tsx           // Listado de Exámenes (SSR de data-service)
+│   │   └── exams/
+│   │       └── [examId]/
+│   │           └── page.tsx   // Página dinámica del Examen (SSR de data-service)
+├── components/
+│   ├── ui/
+│   │   ├── Card.tsx           // Componente base con estilo shadcn/ui (Tailwind)
+│   │   └── Button.tsx         // Componente base con estilo shadcn/ui (Tailwind)
+│   ├── animation/
+│   │   └── **TransitionWrapper.tsx** // Componente Client para Framer Motion
+│   └── features/
+│       ├── ExamCard.tsx       // Utiliza Card.tsx y TransitionWrapper.tsx
+│       └── Timer.tsx          // Componente Client para la cuenta regresiva del examen
+├── **lib/
+│   └── data-service.ts** // Lógica de carga de JSONs
+├── **data/
+│   ├── exams-index.json** // Índice de exámenes con `durationMinutes`
+│   └── uuid-exam-1.json       // Contenido del examen
+├── public/
+└── styles/
+    └── globals.css            // Importación de las directivas de Tailwind
+Instrucciones de Implementación Clave:
+
+En app/exams/[examId]/page.tsx, usa una función async para simular la obtención de los datos del examen (incluyendo durationMinutes) a través de data-service.ts, asegurando el SSR.
+
+Asegúrate de que la instalación y configuración de Tailwind CSS sean visibles.
+
+Incluye código de ejemplo para TransitionWrapper.tsx y data-service.ts.
+
+Usa 'use client' correctamente en los componentes que lo requieran (Framer Motion, Timer.tsx).
+
+
+
+
+
+
+
