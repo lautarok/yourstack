@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "text": "¿Qué hook se usa para manejar el estado en React?",
+      "options": [
+        { "id": 1, "text": "useEffect" },
+        { "id": 2, "text": "useState" },
+        { "id": 3, "text": "useContext" },
+        { "id": 4, "text": "useReducer" }
+      ],
+      "correctAnswerId": 2
+    },
+    {
+      "id": 2,
+      "text": "¿Qué es JSX?",
+      "options": [
+        { "id": 1, "text": "Una extensión de JavaScript que permite escribir HTML en JS" },
+        { "id": 2, "text": "Un framework de CSS" },
+        { "id": 3, "text": "Una librería de testing" },
+        { "id": 4, "text": "Un compilador de TypeScript" }
+      ],
+      "correctAnswerId": 1
+    },
+    {
+      "id": 3,
+      "text": "¿Cuál es la forma correcta de pasar props a un componente hijo?",
+      "options": [
+        { "id": 1, "text": "<Component [prop]='value' />" },
+        { "id": 2, "text": "<Component prop='value' />" },
+        { "id": 3, "text": "<Component (prop)='value' />" },
+        { "id": 4, "text": "<Component {prop}='value' />" }
+      ],
+      "correctAnswerId": 2
+    },
+    {
+      "id": 4,
+      "text": "¿Qué hook se usa para efectos secundarios?",
+      "options": [
+        { "id": 1, "text": "useState" },
+        { "id": 2, "text": "useCallback" },
+        { "id": 3, "text": "useEffect" },
+        { "id": 4, "text": "useMemo" }
+      ],
+      "correctAnswerId": 3
+    },
+    {
+      "id": 5,
+      "text": "¿Qué significa el principio de 'composición sobre herencia' en React?",
+      "options": [
+        { "id": 1, "text": "Preferir crear componentes combinando otros componentes" },
+        { "id": 2, "text": "Usar clases en lugar de funciones" },
+        { "id": 3, "text": "Heredar de Component en lugar de PureComponent" },
+        { "id": 4, "text": "Usar Redux en lugar de Context" }
+      ],
+      "correctAnswerId": 1
+    }
+  ]
+}

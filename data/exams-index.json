@@ -1,0 +1,20 @@
+[
+  {
+    "id": "uuid-exam-1",
+    "title": "Examen de Fundamentos de JavaScript",
+    "durationMinutes": 45,
+    "dataFilePath": "/data/uuid-exam-1.json"
+  },
+  {
+    "id": "uuid-exam-2",
+    "title": "Examen de CSS y Diseño Web",
+    "durationMinutes": 30,
+    "dataFilePath": "/data/uuid-exam-2.json"
+  },
+  {
+    "id": "uuid-exam-3",
+    "title": "Examen de React y Componentes",
+    "durationMinutes": 60,
+    "dataFilePath": "/data/uuid-exam-3.json"
+  }
+]

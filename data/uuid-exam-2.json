@@ -1,0 +1,48 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "text": "¿Qué significa CSS?",
+      "options": [
+        { "id": 1, "text": "Computer Style Sheets" },
+        { "id": 2, "text": "Cascading Style Sheets" },
+        { "id": 3, "text": "Creative Style System" },
+        { "id": 4, "text": "Colorful Style Sheets" }
+      ],
+      "correctAnswerId": 2
+    },
+    {
+      "id": 2,
+      "text": "¿Cuál es la propiedad CSS para cambiar el color de fondo?",
+      "options": [
+        { "id": 1, "text": "color" },
+        { "id": 2, "text": "bgcolor" },
+        { "id": 3, "text": "background-color" },
+        { "id": 4, "text": "bg-color" }
+      ],
+      "correctAnswerId": 3
+    },
+    {
+      "id": 3,
+      "text": "¿Qué display hace que un elemento sea flexible?",
+      "options": [
+        { "id": 1, "text": "display: block" },
+        { "id": 2, "text": "display: flex" },
+        { "id": 3, "text": "display: grid" },
+        { "id": 4, "text": "display: inline" }
+      ],
+      "correctAnswerId": 2
+    },
+    {
+      "id": 4,
+      "text": "¿Cuál es la unidad relativa al tamaño de fuente del elemento padre?",
+      "options": [
+        { "id": 1, "text": "px" },
+        { "id": 2, "text": "em" },
+        { "id": 3, "text": "rem" },
+        { "id": 4, "text": "%" }
+      ],
+      "correctAnswerId": 2
+    }
+  ]
+}

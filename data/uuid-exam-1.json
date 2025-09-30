@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "text": "¿Qué es el 'hoisting' en JavaScript?",
+      "options": [
+        { "id": 1, "text": "El proceso de mover declaraciones al inicio del ámbito" },
+        { "id": 2, "text": "Una técnica de optimización del compilador" },
+        { "id": 3, "text": "Un método para crear funciones anónimas" },
+        { "id": 4, "text": "Una forma de heredar propiedades" }
+      ],
+      "correctAnswerId": 1
+    },
+    {
+      "id": 2,
+      "text": "¿Cuál es la diferencia principal entre 'let' y 'var'?",
+      "options": [
+        { "id": 1, "text": "No hay diferencia" },
+        { "id": 2, "text": "'let' tiene ámbito de bloque, 'var' tiene ámbito de función" },
+        { "id": 3, "text": "'let' es más rápido" },
+        { "id": 4, "text": "'var' es más moderno" }
+      ],
+      "correctAnswerId": 2
+    },
+    {
+      "id": 3,
+      "text": "¿Qué método se usa para añadir elementos al final de un array?",
+      "options": [
+        { "id": 1, "text": "append()" },
+        { "id": 2, "text": "add()" },
+        { "id": 3, "text": "push()" },
+        { "id": 4, "text": "insert()" }
+      ],
+      "correctAnswerId": 3
+    },
+    {
+      "id": 4,
+      "text": "¿Qué devuelve typeof null?",
+      "options": [
+        { "id": 1, "text": "'null'" },
+        { "id": 2, "text": "'undefined'" },
+        { "id": 3, "text": "'object'" },
+        { "id": 4, "text": "'number'" }
+      ],
+      "correctAnswerId": 3
+    },
+    {
+      "id": 5,
+      "text": "¿Cuál es la forma correcta de declarar una función flecha?",
+      "options": [
+        { "id": 1, "text": "function => () {}" },
+        { "id": 2, "text": "() => {}" },
+        { "id": 3, "text": "=> () {}" },
+        { "id": 4, "text": "() -> {}" }
+      ],
+      "correctAnswerId": 2
+    }
+  ]
+}
