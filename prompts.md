@@ -1,0 +1,1 @@
+Necesito que cada componente tenga transicion de salida, que se anime antes de salir de la pantalla, de preferencia que desaparezcan hacia arriba con translateY y a demas con blur y opacity
