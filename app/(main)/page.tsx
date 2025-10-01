@@ -1,35 +1,44 @@
-import { getExamsIndex } from '@/lib/data-service'
-import ExamCard from '@/components/features/ExamCard'
-import { AnimatePresence } from 'framer-motion'
+import { getExamsIndex } from "@/lib/data-service";
+import ExamCard from "@/components/features/ExamCard";
+import TransitionWrapper from "@/components/animation/TransitionWrapper";
+import * as Icon from "akar-icons";
 
 export default async function HomePage() {
-  const exams = await getExamsIndex()
+  const exams = await getExamsIndex();
 
   return (
-    <main className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4'>
-      <div className='max-w-6xl mx-auto'>
-        <div className='text-center mb-12'>
-          <h1 className='text-4xl font-bold text-gray-900 mb-4'>
-            YourStack
-          </h1>
-          <p className='text-lg text-gray-600'>
-            Plataforma de exámenes de TI - Diseño, Programación, Desarrollo Web
-          </p>
-        </div>
+    <main className="min-h-screen flex items-center w-screen justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+      <TransitionWrapper>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">YourStack</h1>
+            <p className="text-lg text-gray-600">
+              Plataforma de exámenes de TI - Diseño, Programación, Desarrollo
+              Web
+            </p>
+          </div>
 
-        <AnimatePresence>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {exams.map((exam) => (
               <ExamCard
                 key={exam.id}
                 id={exam.id}
                 title={exam.title}
+                icon={
+                  exam.icon === "js" ? (
+                    <Icon.JavascriptFill size={58} />
+                  ) : exam.icon === "css" ? (
+                    <Icon.CssFill size={58} />
+                  ) : exam.icon === "react" ? (
+                    <Icon.ReactFill size={58} />
+                  ) : undefined
+                }
                 durationMinutes={exam.durationMinutes}
               />
             ))}
           </div>
-        </AnimatePresence>
-      </div>
+        </div>
+      </TransitionWrapper>
     </main>
-  )
+  );
 }

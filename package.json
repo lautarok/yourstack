@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.15",
+    "akar-icons": "^1.9.31",
     "autoprefixer": "^10.4.21",
     "framer-motion": "^12.23.22",
     "next": "^15.5.4",

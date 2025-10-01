@@ -1,9 +1,10 @@
 [
   {
     "id": "uuid-exam-1",
-    "title": "Examen de Fundamentos de JavaScript",
+    "title": "JavaScript",
     "durationMinutes": 1,
     "dataFilePath": "/data/uuid-exam-1.json",
+    "icon": "js",
     "approvedLink": {
       "url": "https://google.com/search?q=desarrollador",
       "text": "Unirse a la comunidad de desarrolladores",
@@ -15,24 +16,26 @@
   },
   {
     "id": "uuid-exam-2",
-    "title": "Examen de CSS y Diseño Web",
+    "title": "CSS",
     "durationMinutes": 2,
     "dataFilePath": "/data/uuid-exam-2.json",
     "approvedLink": {
       "url": "https://google.com/search?q=diseniador",
       "text": "Unirse a la comunidad de diseñadores"
     },
+    "icon": "css",
     "approvalPercentage": 10
   },
   {
     "id": "uuid-exam-3",
-    "title": "Examen de React y Componentes",
+    "title": "React",
     "durationMinutes": 3,
     "dataFilePath": "/data/uuid-exam-3.json",
     "approvedLink": {
       "url": "https://google.com/search?q=react",
       "text": "Unirse a la comunidad de react"
     },
+    "icon": "react",
     "approvalPercentage": 70
   }
 ]

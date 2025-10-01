@@ -1,51 +1,54 @@
-import { promises as fs } from 'fs'
-import path from 'path'
+import { promises as fs } from "fs";
+import path from "path";
 
 export interface ExamIndex {
-  id: string
-  title: string
-  durationMinutes: number
-  dataFilePath: string
+  id: string;
+  title: string;
+  icon?: string;
+  durationMinutes: number;
+  dataFilePath: string;
 }
 
 export interface Question {
-  id: number
-  text: string
-  options: { id: number; text: string }[]
-  correctAnswerId: number
+  id: number;
+  text: string;
+  options: { id: number; text: string }[];
+  correctAnswerId: number;
 }
 
 export interface ExamData {
-  questions: Question[]
+  questions: Question[];
 }
 
 export async function getExamsIndex(): Promise<ExamIndex[]> {
   try {
-    const filePath = path.join(process.cwd(), 'data', 'exams-index.json')
-    const fileContent = await fs.readFile(filePath, 'utf-8')
-    return JSON.parse(fileContent)
+    const filePath = path.join(process.cwd(), "data", "exams-index.json");
+    const fileContent = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(fileContent);
   } catch (error) {
-    console.error('Error loading exams index:', error)
-    return []
+    console.error("Error loading exams index:", error);
+    return [];
   }
 }
 
-export async function getExamById(examId: string): Promise<{ exam: ExamIndex; data: ExamData } | null> {
+export async function getExamById(
+  examId: string,
+): Promise<{ exam: ExamIndex; data: ExamData } | null> {
   try {
-    const exams = await getExamsIndex()
-    const exam = exams.find((e) => e.id === examId)
-    
+    const exams = await getExamsIndex();
+    const exam = exams.find((e) => e.id === examId);
+
     if (!exam) {
-      return null
+      return null;
     }
 
-    const filePath = path.join(process.cwd(), exam.dataFilePath)
-    const fileContent = await fs.readFile(filePath, 'utf-8')
-    const data: ExamData = JSON.parse(fileContent)
+    const filePath = path.join(process.cwd(), exam.dataFilePath);
+    const fileContent = await fs.readFile(filePath, "utf-8");
+    const data: ExamData = JSON.parse(fileContent);
 
-    return { exam, data }
+    return { exam, data };
   } catch (error) {
-    console.error(`Error loading exam ${examId}:`, error)
-    return null
+    console.error(`Error loading exam ${examId}:`, error);
+    return null;
   }
 }
