@@ -50,6 +50,7 @@ export default function ExamPage({
     [currentQuestionIndex, setCurrentQuestionIndex] = useState(0),
     [showResults, setShowResults] = useState(false),
     [isLoading, setIsLoading] = useState(true),
+    [_showResults, _setShowResults] = useState(false),
     { examId } = React.use(params);
   const setTransitionPathname = useTransitionStore(
     (state) => state.setPathname,
@@ -85,44 +86,53 @@ export default function ExamPage({
     }));
   };
 
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      requestAnimationFrame(() => {
+        _setExitQuestion(currentQuestionIndex);
+        _setStartQuestion(currentQuestionIndex - 1);
+        setTimeout(() => {
+          setCurrentQuestionIndex(currentQuestionIndex - 1);
+          _setStartQuestion(-1);
+        }, 700);
+      });
+    } else {
+      requestAnimationFrame(() => {
+        setTransitionPathname("$nil$");
+        setTimeout(() => {
+          setTransitionPathname("/");
+          router.push("/");
+        }, 700);
+      });
+    }
+  };
+
+  const handleSubmit = () => {
+    requestAnimationFrame(() => {
+      _setShowResults(true);
+      setTimeout(() => {
+        setShowResults(true);
+      }, 700);
+    });
+  };
+
   const handleNext = () => {
-    if (examData && currentQuestionIndex < examData.questions.length - 1) {
+    if (!examData) return;
+
+    if (currentQuestionIndex < examData.questions.length - 1) {
       requestAnimationFrame(() => {
         _setExitQuestion(currentQuestionIndex);
         _setStartQuestion(currentQuestionIndex + 1);
         setTimeout(() => {
           requestAnimationFrame(() => {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            _setStartQuestion(-1)
+            _setStartQuestion(-1);
           });
-        }, 1000);
+        }, 700);
       });
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      requestAnimationFrame(() => {
-        _setExitQuestion(currentQuestionIndex)
-        _setStartQuestion(currentQuestionIndex - 1);
-        setTimeout(() => {
-          setCurrentQuestionIndex(currentQuestionIndex - 1);
-          _setStartQuestion(-1);
-        }, 500)
-      })
     } else {
-      requestAnimationFrame(() => {
-        setTransitionPathname("$nil$")
-        setTimeout(() => {
-          setTransitionPathname("/")
-          router.push("/")
-        }, 500)
-      })
+      handleSubmit();
     }
-  };
-
-  const handleSubmit = () => {
-    setShowResults(true);
   };
 
   const handleTimeUp = () => {
@@ -147,67 +157,8 @@ export default function ExamPage({
     return correct;
   };
 
-  if (showResults) {
-    const score = calculateScore();
-    const percentage = Math.round((score / examData.questions.length) * 100);
-
-    return (
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 flex justify-center items-center">
-        <div className="max-w-4xl mx-auto">
-          <Card className="text-center">
-            <CardHeader>
-              <CardTitle className="text-3xl">Resultados del Examen</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <p className="text-6xl font-bold text-primary mb-2">
-                  {percentage}%
-                </p>
-                <p className="text-xl text-muted-foreground">
-                  {score} de {examData.questions.length} respuestas correctas
-                </p>
-                {percentage >= examData.exam.approvalPercentage ? (
-                  <>
-                    <p className="text-xl text-muted-foreground">(aprobado)</p>
-                    {examData.exam.approvedLink ? (
-                      <Link
-                        style={{
-                          backgroundColor:
-                            examData.exam.approvedLink.color || "#e0e0e0",
-                          color:
-                            examData.exam.approvedLink.foregroundColor ||
-                            "#000",
-                        }}
-                        href={examData.exam.approvedLink.url}
-                        className="w-fit h-fit px-4 py-3 flex justify-center items-center gap-2 mx-auto mt-4 rounded-2xl"
-                      >
-                        {examData.exam.approvedLink.icon ? (
-                          <div
-                            style={{ color: "inherit" }}
-                            dangerouslySetInnerHTML={{
-                              __html: examData.exam.approvedLink.icon,
-                            }}
-                          />
-                        ) : null}
-                        <span style={{ color: "inherit" }}>
-                          {examData.exam.approvedLink.text}
-                        </span>
-                      </Link>
-                    ) : null}
-                  </>
-                ) : (
-                  <p className="text-xl text-muted-foreground">(desaprobado)</p>
-                )}
-              </div>
-              <Button onClick={() => router.push("/")} className="mt-4">
-                Volver al Inicio
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-    );
-  }
+  const score = calculateScore();
+  const percentage = Math.round((score / examData.questions.length) * 100);
 
   const isLastQuestion = currentQuestionIndex === examData.questions.length - 1;
   const answeredCount = Object.keys(selectedAnswers).length;
@@ -217,17 +168,107 @@ export default function ExamPage({
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="w-full h-auto min-h-screen py-12 px-4 items-center justify-center flex-col">
+      <div
+        className="w-screen absolute top-0 left-0 py-12 px-4 flex justify-center items-center"
+        style={{
+          height: _showResults ? "100%" : "0",
+          minHeight: _showResults ? "100vh" : "0",
+          zIndex: "9999999",
+        }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <TransitionWrapper
+            pathname={`/exams/${examId}`}
+            className="w-fit h-fit"
+            exit={showResults && !_showResults}
+            show={_showResults && showResults}
+          >
+            <Card className="text-center">
+              <CardHeader>
+                <CardTitle className="text-3xl">
+                  Resultados del Examen
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <p className="text-6xl font-bold text-primary mb-2">
+                    {percentage}%
+                  </p>
+                  <p className="text-xl text-muted-foreground">
+                    {score} de {examData.questions.length} respuestas correctas
+                  </p>
+                  {percentage >= examData.exam.approvalPercentage ? (
+                    <>
+                      <p className="text-xl text-muted-foreground">
+                        (aprobado)
+                      </p>
+                      {examData.exam.approvedLink ? (
+                        <Link
+                          style={{
+                            backgroundColor:
+                              examData.exam.approvedLink.color || "#e0e0e0",
+                            color:
+                              examData.exam.approvedLink.foregroundColor ||
+                              "#000",
+                          }}
+                          href={examData.exam.approvedLink.url}
+                          className="w-fit h-fit px-4 py-3 flex justify-center items-center gap-2 mx-auto mt-4 rounded-2xl"
+                        >
+                          {examData.exam.approvedLink.icon ? (
+                            <div
+                              style={{ color: "inherit" }}
+                              dangerouslySetInnerHTML={{
+                                __html: examData.exam.approvedLink.icon,
+                              }}
+                            />
+                          ) : null}
+                          <span style={{ color: "inherit" }}>
+                            {examData.exam.approvedLink.text}
+                          </span>
+                        </Link>
+                      ) : null}
+                    </>
+                  ) : (
+                    <p className="text-xl text-muted-foreground">
+                      (desaprobado)
+                    </p>
+                  )}
+                </div>
+                <Button
+                  onClick={() => {
+                    requestAnimationFrame(() => {
+                      setTransitionPathname("$nil$");
+                      setTimeout(() => {
+                        router.push("/");
+                      }, 300);
+                    });
+                  }}
+                  className="mt-4"
+                >
+                  Volver al Inicio
+                </Button>
+              </CardContent>
+            </Card>
+          </TransitionWrapper>
+        </div>
+      </div>
+      <div
+        className="w-full h-auto min-h-screen py-12 px-4 items-center justify-center flex-col"
+        style={{
+          opacity: _showResults ? 0 : 1,
+          transition: "opacity .3s ease-in-out",
+        }}
+      >
         <TransitionWrapper
           pathname={`/exams/${examId}`}
           className="w-full h-fit flex justify-center lg:justify-center pb-7 lg:pt-12 px-8"
         >
           <Timer
             durationMinutes={examData.exam.durationMinutes}
-            onTimeUp={handleTimeUp}
+            onTimeUp={handleSubmit}
           />
         </TransitionWrapper>
-  
+
         <div className="max-w-4xl mx-auto w-full">
           <div className="mb-8 text-center">
             <TransitionWrapper pathname={`/exams/${examId}`}>
@@ -235,51 +276,49 @@ export default function ExamPage({
                 {examData.exam.title}
               </h1>
             </TransitionWrapper>
-            <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
-              <p className="text-gray-600">
-                Pregunta {currentQuestionIndex + 1} de {examData.questions.length}
-              </p>
-            </TransitionWrapper>
-            <TransitionWrapper
-              pathname={`/exams/${examId}`}
-              duration={400}
-              className="w-full h-fit flex justify-center"
-            >
-              <div className="mt-4 w-full lg:max-w-[200px] bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-primary h-2 rounded-full transition-all duration-300"
-                  style={{
-                    width: `${(answeredCount / examData.questions.length) * 100}%`,
-                  }}
-                />
-              </div>
-            </TransitionWrapper>
           </div>
-  
+
           <TransitionWrapper
             pathname={`/exams/${examId}`}
-            duration={300}
+            duration={1000}
             className="!w-full h-unset !overflow-visible"
           >
-            <Card className="w-full">
-              {
-                examData.questions.map((q, index) => (
+            <Card className="!w-full overflow-visible relative">
+              <div
+                className="h-auto flex flex-row"
+                style={{
+                  width: `${examData.questions.length * 100}%`,
+                  transform: `translateX(-${(currentQuestionIndex * 100) / examData.questions.length}%)`,
+                }}
+              >
+                {examData.questions.map((q, index) => (
                   <div
                     key={"exam-" + q.id}
-                    className="overflow-visible w-full absolute top-0 left-0"
+                    className="w-full relative top-0 left-0 transition-[height] duration-100"
                     style={
-                       (_exitQuestion === index || (currentQuestionIndex !== index)) && _startQuestion !== index ? {
-                        maxHeight: 0,
-                        opacity: 0,
-                        transition: "max-height 500ms ease-in-out, opacity 500ms 200ms ease-in-out"
-                      } : {
-                        maxHeight: "250vh",
-                        opacity: 1,
-                        transition: "max-height 500ms ease-in-out, opacity 500ms ease-in-out"
-                      }
+                      (_exitQuestion === index ||
+                        currentQuestionIndex !== index) &&
+                      _startQuestion !== index
+                        ? {
+                            maxHeight: 0,
+                            opacity: 0,
+                            transition:
+                              "max-height 1s ease-in-out, opacity 1s ease-in-out",
+                          }
+                        : {
+                            maxHeight: "250vh",
+                            opacity: 1,
+                            transition:
+                              "max-height 1s ease-in-out, opacity 1s 1s ease-in-out",
+                          }
                     }
                   >
-                    <div className="w-full relative top-0 left-0">
+                    <TransitionWrapper
+                      pathname={`/exams/${examId}`}
+                      className="w-full h-fit"
+                      exit={_exitQuestion === index}
+                      show={_startQuestion !== index}
+                    >
                       <CardHeader>
                         <CardTitle className="text-lg text-center">
                           {q.text}
@@ -292,70 +331,89 @@ export default function ExamPage({
                           </div>
                         ) : null}
                       </CardHeader>
-                      <CardContent>
-                        <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap flex-row gap-4 items-center justify-center">
-                          {q.options.map((option, index) => (
-                            <TransitionWrapper
-                              key={["exma", q.id, option.id].join(" ")}
-                              duration={200 + index * 200}
-                              pathname={`/exams/${examId}`}
-                              className="w-fit h-fit"
+                    </TransitionWrapper>
+                    <CardContent>
+                      <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap flex-row gap-4 items-center justify-center">
+                        {q.options.map((option, optionIndex) => (
+                          <TransitionWrapper
+                            key={["exma", q.id, option.id].join(" ")}
+                            duration={200 + optionIndex * 200}
+                            pathname={`/exams/${examId}`}
+                            className="w-fit h-fit"
+                            exit={_exitQuestion === index}
+                            show={_startQuestion !== index}
+                          >
+                            <button
+                              onClick={() =>
+                                handleAnswerSelect(q.id, option.id)
+                              }
+                              className={`w-fit h-fit text-left px-3 py-2 rounded-full transition-colors ${
+                                selectedAnswers[q.id] === option.id
+                                  ? "border-primary bg-primary text-white"
+                                  : "border-border bg-primary/10 hover:border-primary/50"
+                              }`}
                             >
-                              <button
-                                onClick={() =>
-                                  handleAnswerSelect(q.id, option.id)
-                                }
-                                className={`w-fit h-fit text-left px-3 py-2 rounded-full transition-colors ${
-                                  selectedAnswers[q.id] === option.id
-                                    ? "border-primary bg-primary text-white"
-                                    : "border-border bg-primary/10 hover:border-primary/50"
-                                }`}
-                              >
-                                {option.text}
-                              </button>
-                            </TransitionWrapper>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </div>
+                              {option.text}
+                            </button>
+                          </TransitionWrapper>
+                        ))}
+                      </div>
+                    </CardContent>
                   </div>
-                ))
-              }
+                ))}
+              </div>
             </Card>
           </TransitionWrapper>
-  
-          <div className="mt-8 flex justify-between items-center">
-            
+
+          <div className="mt-8 grid grid-cols-[1fr_2fr_1fr] items-center">
             <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
-              <Button
-                onClick={handlePrevious}
-                variant="outline"
-              >
+              <Button onClick={handlePrevious} variant="outline">
                 Atrás
               </Button>
             </TransitionWrapper>
-  
-            {isLastQuestion ? (
-              <TransitionWrapper pathname={`/exams/${examId}`} duration={500}>
-                <Button
-                  onClick={handleSubmit}
-                  size="lg"
-                  disabled={answeredCount !== examData.questions.length}
-                >
-                  Enviar Respuestas
-                </Button>
+
+            <div className="flex flex-col justify-center text-center">
+              <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
+                <p className="text-gray-600">
+                  Pregunta {currentQuestionIndex + 1} de{" "}
+                  {examData.questions.length}
+                </p>
               </TransitionWrapper>
-            ) : (
-              <TransitionWrapper pathname={`/exams/${examId}`} duration={500}>
-                <Button
-                  disabled={!selectedAnswers[currentQuestion.id]}
-                  onClick={handleNext}
-                  size="lg"
-                >
-                  Siguiente
-                </Button>
+              <TransitionWrapper
+                pathname={`/exams/${examId}`}
+                duration={400}
+                className="w-full h-fit flex justify-center"
+              >
+                <div className="mt-4 w-full relative lg:max-w-[150px] bg-gray-300 rounded-full h-2">
+                  <div
+                    className="bg-black/10 h-2 absolute top-0 left-0 rounded-full transition-all duration-300"
+                    style={{
+                      width: `${(answeredCount / examData.questions.length) * 100}%`,
+                    }}
+                  />
+                  <div
+                    className="bg-primary h-2 absolute top-0 left-0 rounded-full transition-all duration-300"
+                    style={{
+                      width: `${(currentQuestionIndex / (examData.questions.length - 1)) * 100}%`,
+                    }}
+                  />
+                </div>
               </TransitionWrapper>
-            )}
+            </div>
+
+            <TransitionWrapper
+              className="w-full flex justify-end"
+              pathname={`/exams/${examId}`}
+              duration={500}
+            >
+              <Button
+                disabled={!selectedAnswers[currentQuestion.id]}
+                onClick={handleNext}
+                size="lg"
+              >
+                Siguiente
+              </Button>
+            </TransitionWrapper>
           </div>
         </div>
       </div>

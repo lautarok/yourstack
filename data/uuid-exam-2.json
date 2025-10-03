@@ -3,6 +3,7 @@
     {
       "id": 1,
       "text": "¿Qué significa CSS?",
+      "codeFragment": "/* Ignora este codigo */",
       "options": [
         { "id": 1, "text": "Computer Style Sheets" },
         { "id": 2, "text": "Cascading Style Sheets" },
