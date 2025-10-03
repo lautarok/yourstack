@@ -6,10 +6,10 @@
       "static/css/app/(main)/layout.css",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/template": [
+    "/(main)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/template.js"
+      "static/chunks/app/(main)/page.js"
     ],
     "/(main)/exams/[examId]/page": [
       "static/chunks/webpack.js",

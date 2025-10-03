@@ -1,25 +1,48 @@
-'use client'
+"use client";
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode } from 'react'
+import { useTransitionStore } from "@/stores/transitionStore";
+import { ReactNode, useEffect, useState } from "react";
 
 interface TransitionWrapperProps {
-  children: ReactNode
-  className?: string
+  children: ReactNode;
+  pathname?: string;
+  className?: string;
+  duration?: number;
+  show?: boolean;
+  exit?: boolean;
 }
 
-export default function TransitionWrapper({ children, className = '' }: TransitionWrapperProps) {
+export default function TransitionWrapper({
+  children,
+  pathname,
+  className = "",
+  duration = 200,
+  show,
+  exit
+}: TransitionWrapperProps) {
+  const transitionPathname = useTransitionStore((state) => state.pathname),
+      [_ready, _setReady] = useState(false);
+
+  useEffect(() => {
+    _setReady(true)
+  }, [])
+
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
-  )
+    <div
+      style={{
+        transitionDuration: duration + "ms"
+      }}
+      className={[
+        className,
+        "transition-[opacity,transform,translate,filter]",
+        _ready && (show || (show === undefined && transitionPathname === pathname)) && !exit
+          ? "opacity-100 translate-y-0 blur-0"
+          : transitionPathname === "$nil$" || exit
+          ? "opacity-0 -translate-y-10 blur-[.2rem]"
+          : "opacity-0 translate-y-10 blur-[.2rem]"
+      ].join(" ")}
+    >
+      {children}
+    </div>
+  );
 }

@@ -37,12 +37,12 @@ export default function Timer({ durationMinutes, onTimeUp }: TimerProps) {
 
   return (
     <div
-      className={`px-6 w-fit h-fit py-3 rounded-lg font-mono text-lg font-semibold shadow-lg ${
+      className={`w-fit h-fit font-mono text-xl font-semibold ${
         isCritical
-          ? 'bg-red-100 text-red-700 border-2 border-red-300'
+          ? 'text-red-700'
           : isWarning
-          ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-300'
-          : 'bg-blue-100 text-blue-700 border-2 border-blue-300'
+          ? 'text-yellow-700'
+          : 'text-blue-700'
       }`}
     >
       {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}

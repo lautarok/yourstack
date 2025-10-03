@@ -1,16 +1,16 @@
 "use client"
 
-import { AnimatePresence } from "framer-motion"
+import { useTransitionStore } from "@/stores/transitionStore"
 import { usePathname } from "next/navigation"
+import { useEffect } from "react"
 
 export default function TransitionView({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
+  const pathname = usePathname(),
+    setTransitionPathname = useTransitionStore(state => state.setPathname)
+
+  useEffect(() => {
+    setTransitionPathname(pathname)
+  }, [pathname])
   
-  return (
-    <AnimatePresence mode="wait">
-      <div key={pathname}>
-        {children}
-      </div>
-    </AnimatePresence>
-  )
+  return children
 }

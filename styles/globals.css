@@ -43,7 +43,7 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
+  body, html {
+    @apply bg-gradient-to-br from-blue-50 to-indigo-100 text-foreground w-screen h-screen absolute top-0 left-0;
   }
 }
