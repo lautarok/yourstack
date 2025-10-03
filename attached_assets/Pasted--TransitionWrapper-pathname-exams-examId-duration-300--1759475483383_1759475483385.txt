@@ -1,0 +1,59 @@
+
+          <TransitionWrapper
+            pathname={`/exams/${examId}`}
+            duration={300}
+            className="!w-full h-unset !overflow-visible"
+          >
+            <Card className="w-full">
+              {
+                examData.questions.map((q, index) => (
+                  <div
+                    key={"exam-" + q.id}
+                    className="overflow-visible w-full h-auto relative top-0 left-0"
+                    style={
+                       (_exitQuestion === index || (currentQuestionIndex !== index)) && _startQuestion !== index ? {
+                        maxHeight: 0,
+                        opacity: 0,
+                        transition: "max-height 500ms ease-in-out, opacity 500ms 200ms ease-in-out"
+                      } : {
+                        maxHeight: "250vh",
+                        opacity: 1,
+                        transition: "max-height 500ms ease-in-out, opacity 500ms ease-in-out"
+                      }
+                    }
+                  >
+                    <div className="w-full absolute top-0 left-0">
+                      <CardHeader>
+                        <CardTitle className="text-lg text-center">
+                          {q.text}
+                        </CardTitle>
+                        {q.codeFragment ? (
+                          <div className="!mt-6 bg-gray-100 border-[2px] border-gray-200 p-4 rounded-lg">
+                            <pre>
+                              <code>{q.codeFragment}</code>
+                            </pre>
+                          </div>
+                        ) : null}
+                      </CardHeader>
+                      <CardContent>
+                        <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap flex-row gap-4 items-center justify-center">
+                          {q.options.map((option, index) => (
+                            <TransitionWrapper
+                              key={["exma", q.id, option.id].join(" ")}
+                              duration={200 + index * 200}
+                              pathname={`/exams/${examId}`}
+                              className="w-fit h-fit"
+                            >
+                              <button
+                                onClick={() =>
+                                  handleAnswerSelect(q.id, option.id)
+                                }
+                                className={`w-fit h-fit text-left px-3 py-2 rounded-full transition-colors ${
+                                  selectedAnswers[q.id] === option.id
+                                    ? "border-primary bg-primary text-white"
+                                    : "border-border bg-primary/10 hover:border-primary/50"
+                                }`}
+                              >
+                                {option.text}
+                              </button>
+                            </TransitionWrapper>

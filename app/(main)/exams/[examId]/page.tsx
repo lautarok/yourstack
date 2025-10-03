@@ -217,7 +217,7 @@ export default function ExamPage({
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="w-full h-fit min-h-screen py-12 px-4 items-center justify-center flex-col">
+      <div className="w-full h-auto min-h-screen py-12 px-4 items-center justify-center flex-col">
         <TransitionWrapper
           pathname={`/exams/${examId}`}
           className="w-full h-fit flex justify-center lg:justify-center pb-7 lg:pt-12 px-8"
@@ -259,26 +259,27 @@ export default function ExamPage({
           <TransitionWrapper
             pathname={`/exams/${examId}`}
             duration={300}
+            className="!w-full h-unset !overflow-visible"
           >
-            <Card className="relative h-fit">
+            <Card className="w-full">
               {
                 examData.questions.map((q, index) => (
                   <div
                     key={"exam-" + q.id}
-                    className="overflow-hidden w-full h-fit relative top-0 left-0"
+                    className="overflow-visible w-full h-auto relative top-0 left-0"
                     style={
                        (_exitQuestion === index || (currentQuestionIndex !== index)) && _startQuestion !== index ? {
                         maxHeight: 0,
                         opacity: 0,
-                        transition: "max-height 500ms ease-in-out, opacity 500ms ease-in-out"
+                        transition: "max-height 500ms ease-in-out, opacity 500ms 200ms ease-in-out"
                       } : {
                         maxHeight: "250vh",
                         opacity: 1,
-                        transition: "max-height 500ms ease-in-out, opacity 500ms 500ms ease-in-out"
+                        transition: "max-height 500ms ease-in-out, opacity 500ms ease-in-out"
                       }
                     }
                   >
-                    <div className="w-full h-fit absolute top-0 left-0">
+                    <div className="w-full absolute top-0 left-0">
                       <CardHeader>
                         <CardTitle className="text-lg text-center">
                           {q.text}
