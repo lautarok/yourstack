@@ -240,8 +240,9 @@ export default function ExamPage({
                       setTransitionPathname("$nil$");
                       setShowResults(false)
                       setTimeout(() => {
+                        setTransitionPathname("/");
                         router.push("/");
-                      }, 300);
+                      }, 500);
                     });
                   }}
                   className="mt-4"
