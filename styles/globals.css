@@ -50,4 +50,8 @@
   body {
     @apply overflow-y-scroll;
   }
+
+  body::-webkit-scrollbar {
+    @apply w-0 md:w-full;
+  }
 }

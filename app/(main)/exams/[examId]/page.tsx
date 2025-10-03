@@ -282,9 +282,9 @@ export default function ExamPage({
 
           <TransitionWrapper
             pathname={`/exams/${examId}`}
-            className="!w-full h-unset !overflow-visible"
+            className="w-full h-unset !overflow-visible"
           >
-            <Card className="!w-full overflow-visible relative">
+            <Card className="w-full overflow-visible relative">
               <div
                 className="h-auto flex flex-row"
                 style={{
@@ -334,7 +334,7 @@ export default function ExamPage({
                       </CardHeader>
                     </TransitionWrapper>
                     <CardContent>
-                      <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap flex-row gap-4 items-center justify-center">
+                      <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap lg:flex-row flex-col gap-4 lg:items-center items-end justify-center">
                         {q.options.map((option, optionIndex) => (
                           <TransitionWrapper
                             key={["exma", q.id, option.id].join(" ")}
@@ -348,7 +348,7 @@ export default function ExamPage({
                               onClick={() =>
                                 handleAnswerSelect(q.id, option.id)
                               }
-                              className={`w-fit h-fit text-left px-3 py-2 rounded-full transition-colors ${
+                              className={`w-fit h-fit text-left md:px-3 md:py-2 p-4 rounded-xl md:rounded-full transition-colors ${
                                 selectedAnswers[q.id] === option.id
                                   ? "border-primary bg-primary text-white"
                                   : "border-border bg-primary/10 hover:border-primary/50"
@@ -366,26 +366,26 @@ export default function ExamPage({
             </Card>
           </TransitionWrapper>
 
-          <div className="mt-8 grid grid-cols-[1fr_2fr_1fr] items-center">
-            <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
+          <div className="mt-8 grid grid-cols-[1fr_2fr_1fr] gap-4 md:items-start items-center">
+            <TransitionWrapper className="h-fit" pathname={`/exams/${examId}`} duration={300}>
               <Button onClick={handlePrevious} variant="outline">
                 Atrás
               </Button>
             </TransitionWrapper>
 
-            <div className="flex flex-col justify-center text-center">
+            <div className="h-fit md:flex-col justify-center text-center">
               <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
-                <p className="text-gray-600">
-                  Pregunta {currentQuestionIndex + 1} de{" "}
-                  {examData.questions.length}
+                <p className="text-gray-600 hidden md:block">
+                  Pregunta {currentQuestionIndex + 1} de {examData.questions.length}
                 </p>
               </TransitionWrapper>
+              
               <TransitionWrapper
                 pathname={`/exams/${examId}`}
                 duration={400}
                 className="w-full h-fit flex justify-center"
               >
-                <div className="mt-4 w-full relative lg:max-w-[150px] bg-gray-300 rounded-full h-2">
+                <div className="md:mt-4 w-full relative lg:max-w-[150px] bg-gray-300 rounded-full h-2">
                   <div
                     className="bg-black/10 h-2 absolute top-0 left-0 rounded-full transition-all duration-300"
                     style={{
