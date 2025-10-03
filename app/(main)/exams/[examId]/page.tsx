@@ -238,6 +238,7 @@ export default function ExamPage({
                   onClick={() => {
                     requestAnimationFrame(() => {
                       setTransitionPathname("$nil$");
+                      setShowResults(false)
                       setTimeout(() => {
                         router.push("/");
                       }, 300);
