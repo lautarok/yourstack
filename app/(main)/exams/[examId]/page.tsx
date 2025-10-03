@@ -266,7 +266,7 @@ export default function ExamPage({
                 examData.questions.map((q, index) => (
                   <div
                     key={"exam-" + q.id}
-                    className="overflow-visible w-full h-auto relative top-0 left-0"
+                    className="overflow-visible w-full absolute top-0 left-0"
                     style={
                        (_exitQuestion === index || (currentQuestionIndex !== index)) && _startQuestion !== index ? {
                         maxHeight: 0,
@@ -279,7 +279,7 @@ export default function ExamPage({
                       }
                     }
                   >
-                    <div className="w-full absolute top-0 left-0">
+                    <div className="w-full relative top-0 left-0">
                       <CardHeader>
                         <CardTitle className="text-lg text-center">
                           {q.text}
