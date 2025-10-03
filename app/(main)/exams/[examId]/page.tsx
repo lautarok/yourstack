@@ -282,7 +282,6 @@ export default function ExamPage({
 
           <TransitionWrapper
             pathname={`/exams/${examId}`}
-            duration={1000}
             className="!w-full h-unset !overflow-visible"
           >
             <Card className="!w-full overflow-visible relative">
@@ -296,7 +295,7 @@ export default function ExamPage({
                 {examData.questions.map((q, index) => (
                   <div
                     key={"exam-" + q.id}
-                    className="w-full relative top-0 left-0 transition-[height] duration-100"
+                    className="w-full relative top-0 left-0 transition-[height] duration-500"
                     style={
                       (_exitQuestion === index ||
                         currentQuestionIndex !== index) &&

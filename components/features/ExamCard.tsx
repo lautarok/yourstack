@@ -47,7 +47,7 @@ export default function ExamCard({
   return (
     <TransitionWrapper pathname="/" duration={200 + index * 200}>
       <Link href={`/exams/${id}`} onClick={handleClick}>
-        <Card className="md:hover:shadow-[0_0_0_0.3rem] shadow-none !shadow-primary/20 transition-shadow !bg-primary/10 text-center">
+        <Card className="md:hover:shadow-[0_0_0_0.3rem] md:max-w-unset md:mx-0 mx-auto max-w-[240px] shadow-none !shadow-primary/20 transition-shadow !bg-primary/10 text-center">
           <CardHeader className="flex justify-center items-center">
             {icon}
             <CardTitle className="!mt-4">{title}</CardTitle>
