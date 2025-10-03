@@ -520,6 +520,7 @@ video {
     --radius: 0.5rem;
   }
   * {
+  box-sizing: border-box;
   border-color: hsl(var(--border));
 }
   body, html {
@@ -528,6 +529,7 @@ video {
   left: 0px;
   height: 100vh;
   width: 100vw;
+  overflow-x: hidden;
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
   --tw-gradient-from: #eff6ff var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(239 246 255 / 0) var(--tw-gradient-to-position);
@@ -535,8 +537,14 @@ video {
   --tw-gradient-to: #e0e7ff var(--tw-gradient-to-position);
   color: hsl(var(--foreground));
 }
-.right-0 {
-  right: 0px;
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.left-0 {
+  left: 0px;
 }
 .top-0 {
   top: 0px;
@@ -593,15 +601,6 @@ video {
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
-}
-.max-h-0 {
-  max-height: 0px;
-}
-.max-h-\[200vh\] {
-  max-height: 200vh;
-}
-.max-h-\[100vh\] {
-  max-height: 100vh;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -733,10 +732,6 @@ video {
 }
 .bg-secondary {
   background-color: hsl(var(--secondary));
-}
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
 }
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
@@ -910,8 +905,8 @@ video {
   --tw-blur: blur(.2rem);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
-.transition-\[max-height\] {
-  transition-property: max-height;
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -938,11 +933,8 @@ video {
 .duration-300 {
   transition-duration: 300ms;
 }
-.duration-100 {
-  transition-duration: 100ms;
-}
-.duration-1000 {
-  transition-duration: 1000ms;
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hover\:border-primary\/50:hover {
@@ -1003,17 +995,9 @@ video {
 
 @media (min-width: 1024px) {
 
-  .lg\:fixed {
-    position: fixed;
-  }
-
   .lg\:mx-auto {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .lg\:flex {
-    display: flex;
   }
 
   .lg\:max-w-2xl {

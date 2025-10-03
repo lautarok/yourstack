@@ -41,9 +41,9 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border box-border;
   }
   body, html {
-    @apply bg-gradient-to-br from-blue-50 to-indigo-100 text-foreground w-screen h-screen absolute top-0 left-0;
+    @apply bg-gradient-to-br from-blue-50 to-indigo-100 text-foreground w-screen h-screen absolute top-0 left-0 overflow-x-hidden;
   }
 }

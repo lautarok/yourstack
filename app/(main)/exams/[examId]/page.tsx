@@ -56,6 +56,7 @@ export default function ExamPage({
   );
 
   const [_exitQuestion, _setExitQuestion] = useState(-1);
+  const [_startQuestion, _setStartQuestion] = useState(-1);
 
   useEffect(() => {
     const loadExam = async () => {
@@ -88,9 +89,11 @@ export default function ExamPage({
     if (examData && currentQuestionIndex < examData.questions.length - 1) {
       requestAnimationFrame(() => {
         _setExitQuestion(currentQuestionIndex);
+        _setStartQuestion(currentQuestionIndex + 1);
         setTimeout(() => {
           requestAnimationFrame(() => {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
+            _setStartQuestion(-1)
           });
         }, 1000);
       });
@@ -101,9 +104,11 @@ export default function ExamPage({
     if (currentQuestionIndex > 0) {
       requestAnimationFrame(() => {
         _setExitQuestion(currentQuestionIndex)
+        _setStartQuestion(currentQuestionIndex - 1);
         setTimeout(() => {
           setCurrentQuestionIndex(currentQuestionIndex - 1);
-        }, 1000)
+          _setStartQuestion(-1);
+        }, 500)
       })
     } else {
       requestAnimationFrame(() => {
@@ -111,7 +116,7 @@ export default function ExamPage({
         setTimeout(() => {
           setTransitionPathname("/")
           router.push("/")
-        }, 1000)
+        }, 500)
       })
     }
   };
@@ -211,127 +216,146 @@ export default function ExamPage({
   <div className="border-2 border-gray-200"></div>;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 items-center lg:flex justify-center">
-      <TransitionWrapper
-        pathname={`/exams/${examId}`}
-        className="w-full h-fit flex justify-center lg:justify-center pb-7 lg:pt-12 px-8 top-0 right-0 lg:fixed"
-      >
-        <Timer
-          durationMinutes={examData.exam.durationMinutes}
-          onTimeUp={handleTimeUp}
-        />
-      </TransitionWrapper>
-
-      <div className="max-w-4xl mx-auto w-full">
-        <div className="mb-8 text-center">
-          <TransitionWrapper pathname={`/exams/${examId}`}>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {examData.exam.title}
-            </h1>
-          </TransitionWrapper>
-          <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
-            <p className="text-gray-600">
-              Pregunta {currentQuestionIndex + 1} de {examData.questions.length}
-            </p>
-          </TransitionWrapper>
-          <TransitionWrapper
-            pathname={`/exams/${examId}`}
-            duration={400}
-            className="w-full h-fit flex justify-center"
-          >
-            <div className="mt-4 w-full lg:max-w-[200px] bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-primary h-2 rounded-full transition-all duration-300"
-                style={{
-                  width: `${(answeredCount / examData.questions.length) * 100}%`,
-                }}
-              />
-            </div>
-          </TransitionWrapper>
-        </div>
-
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="w-full h-fit min-h-screen py-12 px-4 items-center justify-center flex-col">
         <TransitionWrapper
           pathname={`/exams/${examId}`}
-          duration={300}
-          className={[
-            "transition-[max-height] duration-1000 overflow-hidden",
-            _exitQuestion === currentQuestionIndex ? "max-h-0" : "max-h-200vh"
-          ].join(" ")}
-          exit={_exitQuestion === currentQuestionIndex}
+          className="w-full h-fit flex justify-center lg:justify-center pb-7 lg:pt-12 px-8"
         >
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg text-center">
-                {currentQuestion.text}
-              </CardTitle>
-              {currentQuestion.codeFragment ? (
-                <div className="!mt-6 bg-gray-100 border-[2px] border-gray-200 p-4 rounded-lg">
-                  <pre>
-                    <code>{currentQuestion.codeFragment}</code>
-                  </pre>
-                </div>
-              ) : null}
-            </CardHeader>
-            <CardContent>
-              <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap flex-row gap-4 items-center justify-center">
-                {currentQuestion.options.map((option, index) => (
-                  <TransitionWrapper
-                    key={["exma", currentQuestion.id, option.id].join(" ")}
-                    duration={200 + index * 200}
-                    pathname={`/exams/${examId}`}
-                    className="w-fit h-fit"
-                  >
-                    <button
-                      onClick={() =>
-                        handleAnswerSelect(currentQuestion.id, option.id)
-                      }
-                      className={`w-fit h-fit text-left px-3 py-2 rounded-full transition-colors ${
-                        selectedAnswers[currentQuestion.id] === option.id
-                          ? "border-primary bg-primary text-white"
-                          : "border-border bg-primary/10 hover:border-primary/50"
-                      }`}
-                    >
-                      {option.text}
-                    </button>
-                  </TransitionWrapper>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <Timer
+            durationMinutes={examData.exam.durationMinutes}
+            onTimeUp={handleTimeUp}
+          />
         </TransitionWrapper>
-
-        <div className="mt-8 flex justify-between items-center">
-          
-          <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
-            <Button
-              onClick={handlePrevious}
-              variant="outline"
+  
+        <div className="max-w-4xl mx-auto w-full">
+          <div className="mb-8 text-center">
+            <TransitionWrapper pathname={`/exams/${examId}`}>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                {examData.exam.title}
+              </h1>
+            </TransitionWrapper>
+            <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
+              <p className="text-gray-600">
+                Pregunta {currentQuestionIndex + 1} de {examData.questions.length}
+              </p>
+            </TransitionWrapper>
+            <TransitionWrapper
+              pathname={`/exams/${examId}`}
+              duration={400}
+              className="w-full h-fit flex justify-center"
             >
-              Atrás
-            </Button>
+              <div className="mt-4 w-full lg:max-w-[200px] bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: `${(answeredCount / examData.questions.length) * 100}%`,
+                  }}
+                />
+              </div>
+            </TransitionWrapper>
+          </div>
+  
+          <TransitionWrapper
+            pathname={`/exams/${examId}`}
+            duration={300}
+          >
+            <Card className="relative h-fit">
+              {
+                examData.questions.map((q, index) => (
+                  <div
+                    key={"exam-" + q.id}
+                    className="overflow-hidden w-full h-fit relative top-0 left-0"
+                    style={
+                       (_exitQuestion === index || (currentQuestionIndex !== index)) && _startQuestion !== index ? {
+                        maxHeight: 0,
+                        opacity: 0,
+                        transition: "max-height 500ms ease-in-out, opacity 500ms ease-in-out"
+                      } : {
+                        maxHeight: "250vh",
+                        opacity: 1,
+                        transition: "max-height 500ms ease-in-out, opacity 500ms 500ms ease-in-out"
+                      }
+                    }
+                  >
+                    <div className="w-full h-fit absolute top-0 left-0">
+                      <CardHeader>
+                        <CardTitle className="text-lg text-center">
+                          {q.text}
+                        </CardTitle>
+                        {q.codeFragment ? (
+                          <div className="!mt-6 bg-gray-100 border-[2px] border-gray-200 p-4 rounded-lg">
+                            <pre>
+                              <code>{q.codeFragment}</code>
+                            </pre>
+                          </div>
+                        ) : null}
+                      </CardHeader>
+                      <CardContent>
+                        <div className="lg:max-w-2xl lg:mx-auto w-full max-w-full flex flex-wrap flex-row gap-4 items-center justify-center">
+                          {q.options.map((option, index) => (
+                            <TransitionWrapper
+                              key={["exma", q.id, option.id].join(" ")}
+                              duration={200 + index * 200}
+                              pathname={`/exams/${examId}`}
+                              className="w-fit h-fit"
+                            >
+                              <button
+                                onClick={() =>
+                                  handleAnswerSelect(q.id, option.id)
+                                }
+                                className={`w-fit h-fit text-left px-3 py-2 rounded-full transition-colors ${
+                                  selectedAnswers[q.id] === option.id
+                                    ? "border-primary bg-primary text-white"
+                                    : "border-border bg-primary/10 hover:border-primary/50"
+                                }`}
+                              >
+                                {option.text}
+                              </button>
+                            </TransitionWrapper>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </div>
+                ))
+              }
+            </Card>
           </TransitionWrapper>
-
-          {isLastQuestion ? (
-            <TransitionWrapper pathname={`/exams/${examId}`} duration={500}>
+  
+          <div className="mt-8 flex justify-between items-center">
+            
+            <TransitionWrapper pathname={`/exams/${examId}`} duration={300}>
               <Button
-                onClick={handleSubmit}
-                size="lg"
-                disabled={answeredCount !== examData.questions.length}
+                onClick={handlePrevious}
+                variant="outline"
               >
-                Enviar Respuestas
+                Atrás
               </Button>
             </TransitionWrapper>
-          ) : (
-            <TransitionWrapper pathname={`/exams/${examId}`} duration={500}>
-              <Button
-                disabled={!selectedAnswers[currentQuestion.id]}
-                onClick={handleNext}
-                size="lg"
-              >
-                Siguiente
-              </Button>
-            </TransitionWrapper>
-          )}
+  
+            {isLastQuestion ? (
+              <TransitionWrapper pathname={`/exams/${examId}`} duration={500}>
+                <Button
+                  onClick={handleSubmit}
+                  size="lg"
+                  disabled={answeredCount !== examData.questions.length}
+                >
+                  Enviar Respuestas
+                </Button>
+              </TransitionWrapper>
+            ) : (
+              <TransitionWrapper pathname={`/exams/${examId}`} duration={500}>
+                <Button
+                  disabled={!selectedAnswers[currentQuestion.id]}
+                  onClick={handleNext}
+                  size="lg"
+                >
+                  Siguiente
+                </Button>
+              </TransitionWrapper>
+            )}
+          </div>
         </div>
       </div>
     </main>
